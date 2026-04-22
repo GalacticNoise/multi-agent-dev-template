@@ -1,0 +1,96 @@
+# ---------- Secrets ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ---------- Node / JavaScript ----------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn/
+.pnp.*
+dist/
+build/
+.next/
+.nuxt/
+.turbo/
+.cache/
+coverage/
+*.tsbuildinfo
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.venv/
+venv/
+env/
+htmlcov/
+.coverage
+.coverage.*
+
+# ---------- Unity / Game-Dev ----------
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+Logs/
+UserSettings/
+*.csproj
+*.sln
+*.suo
+*.user
+
+# ---------- Flutter / Dart ----------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+ios/Pods/
+android/.gradle/
+android/local.properties
+
+# ---------- IDE / Editor ----------
+.vscode/
+!.vscode/settings.json.example
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+
+# ---------- Claude Code (projektlokal) ----------
+.claude/settings.local.json
+.claude/cache/
+.claude/logs/
+
+# ---------- Build-Artefakte / Logs ----------
+*.log
+logs/
+tmp/
+temp/
+out/
