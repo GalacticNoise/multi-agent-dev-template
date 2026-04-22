@@ -44,6 +44,14 @@ jobs:
       id-token: write
 
     steps:
+      # Pflicht: Repo auschecken, claude-code-action fetcht/branched darauf.
+      # Ohne diesen Schritt: "fatal: not a git repository" beim Action-Run.
+      # fetch-depth: 0 gibt volle Historie (fuer PR-Diff-Kontext).
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Claude Code Action
         # v1.0.103 (2026-04-22) — SHA-Pin, siehe Security Check 3 Auflage
         uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f
