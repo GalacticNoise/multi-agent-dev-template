@@ -62,8 +62,11 @@ jobs:
           # Fallback (auskommentiert lassen wenn OAuth aktiv):
           # anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 
-          # Harte Limits: Endlos-Loop-Schutz + Kosten-effizient + Tool-Deny
+          # Harte Limits: Endlos-Loop-Schutz + Tool-Deny
+          # Modell-Alias: "sonnet" (safe default), alternativ "haiku" (kosten-effizienter
+          # fuer code-reviews) oder "opus" (tiefe analyse). Bei aenderung: nur aliase
+          # nutzen, keine vollstaendigen IDs (die brechen bei version-bumps).
           claude_args: >-
             --max-turns 10
-            --model claude-haiku-4
+            --model sonnet
             --disallowedTools "WebFetch,Bash(curl:*),Bash(wget:*),Bash(rm -rf:*),Bash(ssh:*)"
