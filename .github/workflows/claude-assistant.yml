@@ -1,0 +1,57 @@
+name: Claude Assistant
+
+# ===========================================================================
+# Gehärtete claude-code-action Integration
+# Basis: Security Check 3 aus idea-0017 M1.5 (2026-04-22)
+# Auflagen umgesetzt:
+#   1. OAuth-Token statt API-Key (nutzt Max-Abo, keine Extra-Billing)
+#   2. SHA-gepinnt auf v1.0.103 (kein @v1, kein @main, kein @beta)
+#   3. author_association-Filter gegen CVE-2025-54794/54795
+#   4. permissions: minimum (pull-requests/issues/contents statt write-all)
+#   5. claude_args mit max-turns, model-wahl, disallowedTools
+#
+# Bei Action-Update: neuen SHA aus https://github.com/anthropics/claude-code-action/releases
+# holen, Security Check wiederholen, dann hier einsetzen.
+# ===========================================================================
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  claude-response:
+    # Defense-in-Depth gegen Prompt-Injection via fremde Kommentare.
+    # Nur Repo-Besitzer, Collaboratoren und Members können den Agenten triggern.
+    # Zusätzlich: @claude-Mention im Kommentar-Body erforderlich.
+    if: |
+      (github.event.comment.author_association == 'OWNER' ||
+       github.event.comment.author_association == 'COLLABORATOR' ||
+       github.event.comment.author_association == 'MEMBER') &&
+      contains(github.event.comment.body, '@claude')
+
+    runs-on: ubuntu-latest
+
+    # Minimum-Permissions (least privilege)
+    permissions:
+      pull-requests: write
+      issues: write
+      contents: read
+
+    steps:
+      - name: Claude Code Action
+        # v1.0.103 (2026-04-22) — SHA-Pin, siehe Security Check 3 Auflage
+        uses: anthropics/claude-code-action@4e5d8b13ca281a6d163cdb287d8917b216e00d6f
+        with:
+          # Primary: OAuth (nutzt Max-Abo)
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          # Fallback (auskommentiert lassen wenn OAuth aktiv):
+          # anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+
+          # Harte Limits: Endlos-Loop-Schutz + Kosten-effizient + Tool-Deny
+          claude_args: >-
+            --max-turns 10
+            --model claude-haiku-4
+            --disallowedTools "WebFetch,Bash(curl:*),Bash(wget:*),Bash(rm -rf:*),Bash(ssh:*)"

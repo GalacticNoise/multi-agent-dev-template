@@ -6,13 +6,29 @@ _Baseline für Projekte aus diesem Template. Vor Produktivnutzung vollständig l
 
 ## 1. Kosten-Kontrolle
 
-### Spending-Cap im Anthropic-Konto
-**Pflicht vor Aktivierung von `claude-code-action`.**
+### Auth-Methode — OAuth bevorzugt
 
-- Gehe zu https://console.anthropic.com/settings/limits
-- Setze ein **monatliches Limit** — Vorschlag für M1-/Pilot-Phase: **$50/Monat**
-- Alert-Threshold bei 50% und 80%
-- Bei Überschreitung: API-Key wird blockiert → keine überraschenden Rechnungen
+**Primary: `CLAUDE_CODE_OAUTH_TOKEN`** (via `claude setup-token`)
+- Nutzt dein Max-/Pro-Abo
+- **Keine Extra-Billing, keine Token-Rechnung pro PR-Review**
+- Secret im GitHub-Repo: `CLAUDE_CODE_OAUTH_TOKEN`
+- Empfohlen für Solo-Projekte und kleine Teams mit gemeinsamem Abo
+
+**Fallback: `ANTHROPIC_API_KEY`**
+- Nur wenn kein Max-Abo verfügbar oder Team-Setup mit separater Billing erforderlich
+- Dann **Pflicht**: Spending-Cap in https://console.anthropic.com/settings/limits
+- Vorschlag: **$50/Monat**, Alerts bei 50% und 80%
+- Bei Überschreitung: API-Key blockiert → keine Überraschungsrechnungen
+
+### Harte Limits im Workflow (`claude_args`)
+
+Unabhängig von der Auth-Methode im Workflow setzen:
+```yaml
+claude_args: "--max-turns 10 --model claude-haiku-4 --disallowedTools 'WebFetch,Bash(curl:*),Bash(wget:*),Bash(rm -rf:*),Bash(ssh:*)'"
+```
+- `--max-turns 10`: Dead-Switch gegen Endlos-Loops
+- `--model claude-haiku-4`: kosten-effizient für Reviews (für tiefe Analysen explizit auf `sonnet`/`opus` überschreiben)
+- `--disallowedTools`: Tool-Deny-Liste zusätzlich zur Permission-Baseline (Defense-in-Depth)
 
 ### Modell-Wahl pro Agent-Rolle
 
