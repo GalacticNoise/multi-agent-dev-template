@@ -34,10 +34,14 @@ jobs:
     runs-on: ubuntu-latest
 
     # Minimum-Permissions (least privilege)
+    # id-token: write ist Pflicht, weil claude-code-action beim OAuth-Token-Flow
+    # einen OIDC-Token vom GitHub-Runner anfordert (keine Exfiltration — der Token
+    # bleibt innerhalb der Action zur Claude-API-Auth).
     permissions:
       pull-requests: write
       issues: write
       contents: read
+      id-token: write
 
     steps:
       - name: Claude Code Action
