@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "steven-shared": {
+      "source": {
+        "source": "github",
+        "repo": "GalacticNoise/claude-shared"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "steven-skills@steven-shared": true
+  }
+}
