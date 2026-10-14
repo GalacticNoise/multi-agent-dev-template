@@ -64,7 +64,7 @@ Jede Uhrzeit, die die Routine selbst schreibt (Memory, History, `last_session`),
 
 **Output (1 Zeile):** `✓ Gate: DoD ✓ · Landeplatz ✓ · kein Secret`
 
-> **Bündeln, nicht einzeln absetzen.** Die drei Teilprüfungen sind deterministisch — ein Sammel-Skript im Repo (`scripts/abschluss-gate.sh` o.ä.) druckt sie als ≤5 Zeilen und setzt den Exit-Code (0 grün · 1 Secrets-Treffer, Push stoppen · 2 Struktur kaputt). Siehe „Token-Disziplin" unten.
+> **Bündeln, nicht einzeln absetzen.** Die drei Teilprüfungen sind deterministisch — ein Sammel-Skript im Repo (`scripts/abschluss-gate.sh` o.ä.) druckt sie als ≤5 Zeilen und setzt den Exit-Code (0 grün · 1 Secrets-Treffer, Push stoppen · 2 Struktur kaputt). Siehe „Token-Disziplin" in `shared/routines/abschluss-kern.md`.
 
 **Reine Nicht-Code-/Diskussions-Session:** (a) und (b) skippen mit
 `✓ Gate: keine Code-Änderung`; (c) läuft trotzdem, sobald etwas gepusht wird.
@@ -206,7 +206,7 @@ THEMA sprechend und themenbasiert, nie „Diverses"; max. 2 Themen, Komma-getren
 
 ### 5. Sync
 
-**a) Push/Merge** nach dem Modell des Workspaces (Tabelle unten): PR-Modell → der Merge ist
+**a) Push/Merge** nach dem Modell des Workspaces (Merge-Modell unter 1a): PR-Modell → der Merge ist
 in-Session schon passiert, hier nur verifizieren; Worktree→Default-Merge → jetzt mergen.
 
 **b) Verlust-Verifikation — Pflicht bei jedem Merge-Skript.** Nach dem Merge muss
